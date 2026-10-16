@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>NCKU APP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 版面：手機單欄。灰色底、米色標題列、白色卡片，沿用 Canva 設計稿的配色與圖示風格 */
+:root{
+  --bg:#5a5954;         /* 主背景灰，略帶橄欖色調 */
+  --bg-line:#4a4945;    /* 列與列之間的分隔 */
+  --cream:#eceae1;      /* 標題列、按鈕底 */
+  --olive:#a39d7e;      /* 標題字、強調 */
+  --olive-deep:#6f6a50; /* 強調色上的文字 */
+  --ink:#1f1f1d;
+  --card:#ffffff;
+  --mist:#c5ccd6;       /* 提示文字、壘包底色 */
+  --muted:#77766f;
+  --on-bg:#ffffff;      /* 灰底上的文字 */
+  --pin:#d2483c;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --font-latin:"Lexend","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--olive);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.app{max-width:440px;margin:0 auto;min-height:100%;padding-bottom:110px;position:relative}
+.top-gap{height:28px}
+
+/* 標題列 */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--cream);display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:84px}
+.bar h1{flex:1;margin:0;color:var(--olive);font-weight:900;font-size:clamp(28px,8.6vw,38px);letter-spacing:.06em;line-height:1.1;text-wrap:balance;min-width:0}
+.bar-icon{width:52px;height:52px;flex:none;color:var(--ink)}
+.home-btn{width:64px;height:60px;flex:none;border:0;background:none;padding:0;color:var(--ink);border-radius:12px}
+.bar svg,.tile svg{width:100%;height:100%}
+
+.wrap{padding:24px 16px 0;display:flex;flex-direction:column;gap:20px}
+.section-title{color:var(--on-bg);font-weight:700;font-size:18px;margin:6px 0 -6px;letter-spacing:.04em}
+.hint{color:var(--mist);font-size:14px;margin:0}
+
+/* 首頁功能格 */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 16px;padding:40px 16px 8px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:12px;border:0;background:none;padding:0;color:var(--on-bg)}
+.tile-face{width:100%;aspect-ratio:1.75;background:var(--cream);border-radius:28px;display:grid;place-items:center;color:var(--ink);transition:transform .15s}
+.tile-face span{width:52%;height:84%;display:block}
+.tile:active .tile-face{transform:scale(.95)}
+.tile b{font-size:clamp(17px,5.4vw,22px);letter-spacing:.06em}
+
+.yesterday{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;padding:44px 16px 0;align-items:center}
+.y-photo{border:0;padding:0;aspect-ratio:2/3;width:100%;max-width:100%;overflow:hidden;background:
+  radial-gradient(60% 18% at 70% 58%,rgba(244,196,160,.85),transparent 70%),
+  radial-gradient(70% 20% at 30% 40%,rgba(236,206,170,.7),transparent 70%),
+  linear-gradient(180deg,#a8c3c3 0%,#b9c3b6 38%,#e3c4a0 62%,#cfc0a3 100%)}
+.y-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.y-text{color:var(--on-bg);font-family:var(--font-latin);font-weight:600;font-size:clamp(28px,8.5vw,38px);line-height:1.3;margin:0}
+.y-cap{color:var(--cream);font-size:14px;margin-top:10px;font-family:var(--font-body);font-weight:400;line-height:1.5}
+
+.fab{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:max(16px,calc(50% - 220px + 16px));width:76px;height:76px;border-radius:50%;border:0;background:var(--cream);color:var(--olive);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:6}
+.fab svg{width:40px;height:40px}
+
+/* 共用元件 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;background:var(--cream);color:var(--ink);font-weight:700;padding:12px 20px;font-size:16px;text-decoration:none}
+.btn.primary{background:var(--olive);color:#fff}
+.btn.ghost{background:transparent;color:var(--on-bg);border:2px solid var(--cream)}
+.btn.small{padding:7px 14px;font-size:14px}
+.btn.danger{background:#f3dedb;color:#9a2f25}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.card{background:var(--card);border-radius:22px;padding:18px 20px}
+.empty{color:var(--cream);text-align:center;padding:28px 12px;border:2px dashed #78776f;border-radius:22px;line-height:1.7}
+.back{color:var(--cream);text-decoration:none;font-weight:700;display:inline-flex;gap:6px;align-items:center;border:0;background:none;padding:0}
+label.field{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
+input[type=text],input[type=time],input[type=date],textarea{border:1.5px solid #d9d7cd;border-radius:12px;padding:10px 12px;background:#fff;width:100%;min-width:0}
+textarea{resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid #d6d3c6;background:#fff;border-radius:999px;padding:6px 13px;font-size:14px}
+.chip[aria-pressed=true]{background:var(--olive);border-color:var(--olive);color:#fff}
+
+/* 記事本 */
+.note-list{display:flex;flex-direction:column;gap:12px}
+.note-item{display:block;width:100%;text-align:left;border:0;background:var(--card);border-radius:20px;padding:16px 18px}
+.note-item b{display:block;font-size:17px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.note-item p{margin:0;color:var(--muted);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.note-item small{display:block;color:var(--olive);margin-top:8px;font-size:12px;font-variant-numeric:tabular-nums}
+.note-edit textarea{min-height:52vh;border:0;font-size:17px;line-height:1.75;padding:0}
+
+/* 隨手拍 */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.photo-grid button{border:0;padding:0;aspect-ratio:1;overflow:hidden;background:#6a6964;position:relative}
+.photo-grid img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-grid small{position:absolute;left:6px;bottom:5px;color:#fff;font-size:11px;text-shadow:0 1px 3px rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
+.viewer img{width:100%;max-height:56vh;object-fit:contain;background:#222;border-radius:14px;display:block}
+
+/* 訂飲料 */
+.map{display:block;position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden;background:#e9e7e2;color:inherit;text-decoration:none}
+.map:active .map-pin{transform:translate(-50%,-100%)}
+.map-art{position:absolute;inset:0;background:
+  linear-gradient(28deg,transparent 46%,#fff 46%,#fff 50%,transparent 50%),
+  linear-gradient(-40deg,transparent 60%,#fff 60%,#fff 63%,transparent 63%),
+  linear-gradient(115deg,transparent 30%,#fff 30%,#fff 32.5%,transparent 32.5%),
+  repeating-linear-gradient(60deg,#ecebe6 0 22px,#e2e0d9 22px 24px),#e9e7e2}
+.map-pin{position:absolute;left:50%;top:50%;width:34px;height:46px;transform:translate(-50%,-92%);color:var(--pin)}
+.map-info{position:absolute;left:12px;top:12px;right:12px;max-width:300px;background:#fff;border-radius:6px;padding:10px 12px;box-shadow:0 2px 6px rgba(0,0,0,.18);font-size:13px;line-height:1.5;color:#555}
+.map-info b{display:block;color:#222;font-size:14px;font-weight:500}
+.map-info a{color:#1a73e8;text-decoration:none;font-weight:500}
+
+.stores{display:flex;flex-direction:column;gap:6px;background:var(--bg-line);margin:0 -16px}
+.store{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--cream);padding:12px 16px 12px 14px;border:0;text-align:left;width:100%}
+.store .pin{width:44px;height:56px;color:var(--olive)}
+.store[aria-current=true]{background:#f7f6f1}
+.store[aria-current=true] .pin{color:var(--olive-deep)}
+.store-name{font-size:clamp(24px,7.4vw,32px);font-weight:900;color:var(--olive-deep);line-height:1.15;letter-spacing:.04em}
+.store-tag{font-size:clamp(14px,4.2vw,17px);font-weight:700;color:var(--olive-deep);opacity:.85}
+.store-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.price{font-weight:700;color:var(--olive-deep);font-size:clamp(16px,4.8vw,21px);font-variant-numeric:tabular-nums;white-space:nowrap}
+.menu-btn{border:0;background:#fff;border-radius:999px;padding:6px 20px;font-weight:700;font-size:18px;color:var(--olive-deep)}
+
+.order{background:var(--card);border-radius:18px;padding:14px 16px;display:grid;gap:6px}
+.order header{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.order header b{font-size:17px}
+.order small{color:var(--muted);font-variant-numeric:tabular-nums}
+.order ul{margin:0;padding-left:18px;color:#444;font-size:14px;line-height:1.6}
+
+.menu-items{display:flex;flex-direction:column}
+.cat{margin:0;padding:16px 2px 6px;font-size:14px;color:var(--olive-deep);letter-spacing:.08em;border-bottom:2px solid var(--olive);position:sticky;top:-20px;background:#fff;z-index:1}
+.mi{border-bottom:1px solid #e7e4da}
+.mi>button{display:flex;justify-content:space-between;width:100%;border:0;background:none;padding:13px 2px;font-size:17px;text-align:left;gap:8px}
+.mi>button span:last-child{font-variant-numeric:tabular-nums;color:var(--olive-deep);font-weight:700}
+.mi-opts{display:grid;gap:12px;padding:4px 2px 16px}
+.mi-opts h4{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:500}
+.stepper{display:inline-flex;align-items:center;gap:4px;border:1.5px solid #d6d3c6;border-radius:999px}
+.stepper button{border:0;background:none;width:36px;height:34px;font-size:20px}
+.stepper output{min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
+.cart{background:#f4f3ee;border-radius:16px;padding:12px 14px;display:grid;gap:10px;max-height:38vh;overflow:auto}
+.cart-bar{position:sticky;bottom:calc(-24px - env(safe-area-inset-bottom,0px));margin:12px -18px calc(-24px - env(safe-area-inset-bottom,0px));padding:10px 18px calc(12px + env(safe-area-inset-bottom,0px));background:#fff;box-shadow:0 -6px 14px rgba(0,0,0,.08);display:grid;gap:10px;z-index:2}
+.cart-sum{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cart-toggle{border:0;background:none;padding:6px 0;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;text-align:left}
+.cart-toggle small{color:var(--muted);font-weight:500;margin-left:4px}
+.chip small{font-size:11px;opacity:.8}
+.order.pending{box-shadow:inset 0 0 0 2px var(--olive)}
+.cart-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:14px}
+.cart-line small{color:var(--muted);display:block}
+.x{border:0;background:none;color:var(--muted);font-size:18px;width:30px;height:30px;border-radius:50%}
+.total{display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* 球經紀錄 */
+.game-head{background:var(--card);border-radius:28px;padding:22px 24px;display:grid;gap:8px;min-height:180px}
+.date-input{border:0!important;padding:0!important;font-size:clamp(34px,10.5vw,46px);font-weight:900;font-family:var(--font-body);font-variant-numeric:tabular-nums;background:transparent!important;letter-spacing:.01em;width:auto}
+.date-big{display:flex;align-items:center;gap:8px;position:relative}
+.date-big span{font-size:clamp(34px,10.5vw,46px);font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.date-big input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
+.game-head textarea{border:0;padding:0;font-size:18px;font-weight:700;color:var(--ink);min-height:96px;line-height:1.6}
+.game-head textarea::placeholder{color:var(--mist)}
+.stats{display:flex;gap:18px;color:var(--cream);font-size:14px;flex-wrap:wrap}
+.stats b{font-size:20px;color:#fff;font-variant-numeric:tabular-nums;margin-left:4px}
+.batter{display:grid;gap:6px}
+.batter-label{display:flex;gap:10px;align-items:center;color:var(--cream);font-size:14px;padding:0 6px}
+.batter-label input{background:transparent;border:0;border-bottom:1.5px solid #807f77;border-radius:0;color:#fff;padding:2px 2px;width:9em}
+.batter-label input::placeholder{color:#a9a8a0}
+.batter-label .x{color:var(--cream);margin-left:auto}
+.sheet-row{background:var(--card);border-radius:30px;display:grid;grid-template-columns:42% repeat(4,1fr);overflow:hidden;min-height:132px}
+.diamond{position:relative;padding:8px}
+.diamond svg{width:100%;height:100%;display:block}
+.diamond .q{position:absolute;width:50%;height:50%;border:0;background:none;padding:0}
+.q1{right:0;top:0}.q2{right:0;bottom:0}.q3{left:0;bottom:0}.q4{left:0;top:0}
+.ab{border:0;border-left:1.5px solid var(--ink);background:none;display:grid;place-items:center;font-size:clamp(26px,8vw,40px);font-weight:400;padding:0;font-variant-numeric:tabular-nums;color:var(--ink)}
+.ab.set{font-size:clamp(15px,4.4vw,19px);font-weight:900;writing-mode:vertical-rl;letter-spacing:.12em}
+.ab.hit{color:var(--olive-deep);background:#efede4}
+.ab.on{color:#3d6a8c}
+.ab.out{color:#9a948a}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.result-grid button{border:1.5px solid #e1ded3;background:#fff;border-radius:14px;padding:12px 0;font-weight:700;font-size:16px}
+.result-grid .hit{color:var(--olive-deep);background:#f3f1ea}
+.result-grid .on{color:#3d6a8c}
+.result-grid .out{color:#8b857a}
+
+/* 歷史紀錄 */
+.hist{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;width:100%;text-align:left;border:0;background:var(--card);border-radius:22px;padding:16px 20px;align-items:center}
+.hist time{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;grid-row:span 2;line-height:1.1}
+.hist time small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.hist p{margin:0;color:var(--muted);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist .nums{font-size:14px;color:var(--olive-deep);font-weight:700}
+
+/* 行事曆 */
+.cal{background:var(--card);border-radius:24px;padding:14px 12px 16px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px 10px}
+.cal-head b{font-size:20px;font-variant-numeric:tabular-nums}
+.cal-head button{border:0;background:var(--cream);width:38px;height:38px;border-radius:50%;font-size:18px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-grid .dow{font-size:12px;color:var(--muted);padding:4px 0}
+.day{border:0;background:none;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-variant-numeric:tabular-nums;font-size:16px;padding:0}
+.day.other{color:#c3c1b8}
+.day.today{box-shadow:inset 0 0 0 2px var(--olive)}
+.day[aria-pressed=true]{background:var(--olive);color:#fff}
+.dots{display:flex;gap:3px;height:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--olive)}
+.dots i.g{background:#3d6a8c}
+.day[aria-pressed=true] .dots i{background:#fff}
+.ev{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.ev time{font-variant-numeric:tabular-nums;color:var(--olive-deep);font-weight:700;min-width:3.2em}
+.ev span{flex:1;min-width:0}
+
+/* 底部面板與提示 */
+.scrim{position:fixed;inset:0;background:rgba(20,20,18,.5);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:440px;max-height:88vh;overflow:auto;border-radius:26px 26px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px));animation:up .2s ease-out}
+.sheet h3{margin:0 0 4px;font-size:22px}
+.sheet .sub{margin:0 0 14px;color:var(--muted);font-size:13px}
+.sheet-actions{display:grid;gap:10px}
+.sheet-actions .btn{width:100%;justify-content:flex-start;padding:15px 20px;border-radius:16px}
+@keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+.toast{position:fixed;left:50%;bottom:calc(110px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#222;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+.copy-box{width:100%;min-height:140px;font-size:14px}
+</style>
+
+<div class="app" id="app">
+  <div class="top-gap"></div>
+  <div class="wrap"><div class="empty" style="text-align:left">
+    <b style="font-size:18px">App 沒有啟動</b><br>
+    這個開啟方式不能執行 App 的程式，常見於手機的「檔案」預覽、LINE 或雲端硬碟的預覽。<br>
+    請改用 Safari 或 Chrome 開啟 App 的網址。
+  </div></div>
+</div>
+<div id="layer"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- 圖示（手繪線條風） ---------- */
+const S = (inner, vb='0 0 64 64') => `<svg viewBox="${vb}" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const ICON = {
+  house: S('<path d="M6 32 L32 9 L58 32"/><path d="M12 27 V56 H52 V27"/><path d="M45 18 V9 H51 V24"/><path d="M20 56 V36 H31 V56"/><rect x="37" y="36" width="9" height="9"/>'),
+  book: S('<path d="M5 20 Q18 13 32 20 Q46 13 59 20 V48 Q46 41 32 48 Q18 41 5 48 Z"/><path d="M32 20 V48"/><path d="M11 25 Q19 22 27 26 M11 31 Q19 28 27 32 M11 37 Q19 34 27 38 M37 26 Q45 22 53 25 M37 32 Q45 28 49 30"/><path d="M40 44 L58 24 L61 27 L43 47 L38 48 Z" fill="#fff"/>'),
+  camera: S('<rect x="6" y="20" width="52" height="34" rx="6"/><path d="M22 20 L26 12 H38 L42 20"/><circle cx="32" cy="37" r="11"/><circle cx="32" cy="37" r="5.5"/><path d="M10 25 H17 M48 26 h4"/><rect x="11" y="15" width="7" height="5" rx="1"/>'),
+  cup: S('<path d="M17 23 H47 L45 28 H19 Z"/><path d="M20 28 L24 57 H40 L44 28"/><path d="M21.5 38 H42.5"/><path d="M34 23 L39 6 L46 4"/><path d="M19 23 Q32 15 45 23"/>'),
+  ball: S('<circle cx="32" cy="32" r="25"/><path d="M19 11 Q29 32 19 53 M45 11 Q35 32 45 53"/><path d="M19 17 l5 -1 M21 23 l5 -1 M22 29 l5 0 M22 35 l5 0 M21 41 l5 1 M19 47 l5 1 M45 17 l-5 -1 M43 23 l-5 -1 M42 29 l-5 0 M42 35 l-5 0 M43 41 l-5 1 M45 47 l-5 1" stroke-width="2"/>'),
+  bats: S('<path d="M10 6 Q14 4 18 8 L50 52 L47 55 L14 13 Q8 10 10 6 Z"/><path d="M54 6 Q50 4 46 8 L14 52 L17 55 L50 13 Q56 10 54 6 Z"/><circle cx="50" cy="56" r="3"/><circle cx="14" cy="56" r="3"/>'),
+  cal: S('<rect x="9" y="12" width="46" height="46" rx="5"/><path d="M9 22 H55"/><path d="M19 7 V16 M32 7 V16 M45 7 V16"/><g stroke-width="2.2"><rect x="15" y="28" width="7" height="6"/><rect x="25" y="28" width="7" height="6"/><rect x="35" y="28" width="7" height="6"/><rect x="45" y="28" width="5" height="6"/><rect x="15" y="38" width="7" height="6"/><rect x="25" y="38" width="7" height="6"/><rect x="35" y="38" width="7" height="6"/><rect x="45" y="38" width="5" height="6"/><rect x="15" y="48" width="7" height="5"/><rect x="25" y="48" width="7" height="5"/><rect x="35" y="48" width="7" height="5"/></g><path d="M45 58 Q50 50 55 48"/>'),
+  plus: '<svg viewBox="0 0 40 40" aria-hidden="true"><path fill="currentColor" d="M15 4h10v11h11v10H25v11H15V25H4V15h11z"/></svg>',
+  pin: '<svg viewBox="0 0 44 58" aria-hidden="true"><path fill="currentColor" d="M22 0C10 0 1 9 1 21c0 15 21 37 21 37s21-22 21-37C43 9 34 0 22 0zm0 30a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/></svg>'
+};
+
+/* ---------- 儲存 ---------- */
+const mem = {};
+const db = {
+  get(k, d){ if (k in mem) return mem[k]; try { const v = localStorage.getItem('ncku.'+k); if (v != null) return (mem[k] = JSON.parse(v)); } catch(e){} return d; },
+  set(k, v){ mem[k] = v; try { localStorage.setItem('ncku.'+k, JSON.stringify(v)); return true; } catch(e){ return false; } }
+};
+
+/* ---------- 工具 ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today = () => ymd(new Date());
+const addDays = (s, n) => { const d = new Date(s+'T00:00:00'); d.setDate(d.getDate()+n); return ymd(d); };
+const slash = s => { const [y,m,d] = s.split('-').map(Number); return `${y}/${m}/${d}`; };
+const md = s => { const [,m,d] = s.split('-').map(Number); return `${m}/${d}`; };
+const WEEK = '日一二三四五六';
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const stamp = t => { const d = new Date(t); return `${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+let toastTimer;
+function toast(msg){
+  let t = $('.toast'); if (!t){ t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 2200);
+}
+
+/* ---------- 範例資料（第一次開啟時） ---------- */
+if (!db.get('seeded', false)){
+  const t = today();
+  db.set('notes', [{ id: uid(), text: '範例：比賽日要帶的東西\n記分本、紅筆、冰桶、急救包、隊費收據', updated: Date.now() }]);
+  db.set('games', { '2026-09-24': { note: '範例：對土木系友誼賽，五局 6:4 贏球。第三局連三支安打。', rows: [
+    { name: '1號', bases: [1,1,1,1], ab: ['一安','滾地','',''] },
+    { name: '7號', bases: [1,0,0,0], ab: ['三振','四壞','',''] },
+    { name: '12號', bases: [1,1,0,0], ab: ['二安','飛球','',''] }
+  ] } });
+  db.set('events', { [addDays(t,2)]: [{ id: uid(), time: '18:00', title: '範例：光復操場練球' }] });
+  db.set('seeded', true);
+}
+
+/* ---------- 飲料店資料 ---------- */
+/* 菜單格式：「#分類」換分類；「品名 中杯 大杯」，沒有的尺寸寫 - */
+const STORES = [
+  { id:'dezheng', name:'得正', tag:'主打茶類，走文青風', q:'得正 台南東門計劃', addr:'台南市東區東門路二段180號',
+    src:'全台價目，2026 年 7 月整理；離島與百貨店型門市以現場為準。', menu:`
+#原味茶
+紅茶 25 30
+綠茶 25 30
+春烏龍 30 35
+輕烏龍 30 35
+焙烏龍 30 35
+緋烏龍 35 40
+#經典奶茶
+奶茶 45 50
+焙烏龍奶茶 45 50
+珍珠奶茶 55 60
+黃金珍珠奶綠 55 60
+烘吉奶茶 50 -
+#雙果茶
+檸檬春烏龍 55 65
+香橙春烏龍 60 70
+甘蔗春烏龍 60 70
+青梅春烏龍 50 60
+優酪春烏龍 55 65
+雙柚金烏龍 55 65
+#鮮奶茶
+紅茶鮮奶 55 65
+輕烏龍鮮奶 55 65
+焙烏龍鮮奶 55 65
+烘吉鮮奶 70 -
+#芝士奶蓋
+芝士奶蓋春烏龍 50 60
+芝士奶蓋焙烏龍 50 60
+芝士奶蓋阿華田 55 65
+芝士奶蓋烘吉茶 55 65
+#季節限定
+蜜蘋苦瓜綠 60 70
+蜜蘋苦瓜奶綠 65 75
+蜜蘋苦瓜綠茶鮮奶 75 85` },
+  { id:'50lan', name:'50嵐', tag:'清爽又好喝', q:'50嵐 台南 東門路', addr:'',
+    src:'台南區價目表（2024 年 12 月），之後可能已調整。查不到台南區的加料價格，加料金額沒算進總價。', menu:`
+#找好茶
+茉莉綠茶 25 30
+阿薩姆紅茶 25 30
+四季春青茶 25 30
+黃金烏龍 25 30
+波霸紅 35 45
+微檸檬青 35 45
+檸檬綠 40 55
+梅の綠 40 55
+8冰綠 40 55
+多多綠 40 55
+旺來紅 40 55
+柚子紅 40 55
+鮮柚綠 50 65
+#找奶茶
+奶茶 40 55
+奶綠 40 55
+烏龍奶 40 55
+珍珠奶茶 40 55
+波霸奶茶 40 55
+燕麥奶茶 40 55
+阿華田 40 55
+#找拿鐵（鮮奶）
+紅茶拿鐵 50 65
+重焙烏龍拿鐵 50 65
+珍珠紅茶拿鐵 50 65
+波霸紅茶拿鐵 50 65
+燕麥紅茶拿鐵 50 65
+阿華田拿鐵 50 65
+#找新鮮（無咖啡因）
+8冰茶 40 55
+柚子茶 40 55
+檸檬汁 50 65
+葡萄柚汁 50 65
+金桔檸檬 50 65
+檸檬梅汁 50 65
+檸檬多多 55 75
+葡萄柚多多 55 75
+#找冰淇淋
+冰淇淋紅茶 40 55
+芒果青 40 55
+荔枝烏龍 40 55
+冰淇淋奶茶 50 65
+冰淇淋紅茶拿鐵 55 75` },
+  { id:'yimuri', name:'一沐日', tag:'在地草根飲料品牌', q:'一沐日 台南', addr:'',
+    src:'2025 年價目表，冰飲一律 660cc；配料草仔粿、粉粿另加 15 元。', menu:`
+#原味茶
+輕香烏龍綠 - 40
+糯米香茶 - 40
+島韻紅茶 - 40
+炭焙烏龍 - 35
+油切蕎麥茶 - 35
+手採高山青 - 35
+#滋味茶
+糯香檸檬茶 - 60
+粉粿桂花檸檬 - 65
+粉粿黑糖檸檬 - 65
+荔枝烏龍 - 55
+檸檬高山青 - 60
+黃金柚烏龍 - 65
+#風味茶
+梅果紅茶 - 60
+荔枝蘆薈 - 60
+鮮葡萄柚青茶 - 65
+養樂多青茶 - 55
+桂花蕎麥茶 - 55
+#冬瓜茶
+冬瓜紅茶 - 45
+冬瓜青茶 - 45
+冬瓜檸檬 - 50
+冬瓜仙草蜜 - 50
+#香醇奶茶
+糯香奶茶 - 55
+粉粿黑糖奶茶 - 65
+黃金蕎麥奶茶 - 50
+逮丸奶茶 - 70
+極黑芝麻奶茶 - 65
+島韻紅奶茶 - 55
+#奶蓋茶
+高讚塔烏龍綠 - 70
+奶蓋糯香茶 - 70
+奶蓋島韻紅 - 70
+奶蓋烏龍茶 - 65
+奶蓋蕎麥茶 - 65
+#牧場鮮乳
+糯香鮮奶茶 - 75
+蕎麥鮮奶茶 - 70
+烏龍鮮奶茶 - 70
+島韻鮮奶茶 - 75
+極黑芝麻鮮奶茶 - 80` },
+  { id:'mojo', name:'茶之魔手', tag:'品項多樣人人愛', q:'茶之魔手 台南', addr:'',
+    src:'一般門市（中南部）菜單；買五送一，部分飲品除外。', menu:`
+#台灣茗茶
+台灣靛紅 25 30
+台灣純綠 25 30
+台灣青茶 25 30
+台灣烏龍 25 30
+台灣烏龍綠 25 30
+台灣烏龍青 25 30
+#伯爵紅茶
+伯爵紅茶 25 30
+梅子伯爵 35 40
+檸檬伯爵 45 50
+檸檬多酚伯爵 - 50
+冬瓜伯爵 30 35
+波霸伯爵 30 35
+珍珠伯爵 30 35
+椰果伯爵 30 35
+伯爵奶茶 40 45
+日式伯爵奶茶 40 45
+伯爵鮮奶茶 45 55
+伯爵蜂蜜奶茶 45 50
+伯爵玫瑰奶茶 45 50
+伯爵薄荷奶茶 45 50
+波霸伯爵奶茶 45 50
+珍珠伯爵奶茶 45 50
+椰果伯爵奶茶 45 50
+QQ伯爵奶茶 45 50
+布丁伯爵奶茶 50 55
+仙草凍伯爵奶茶 45 50
+藍莓凍伯爵奶茶 45 50
+咖啡凍伯爵奶茶 45 50
+#台灣靛紅
+梅子紅茶 35 40
+蜂蜜紅茶 40 45
+檸檬紅茶 45 50
+檸檬多酚紅茶 - 50
+冬瓜紅茶 30 35
+百香紅茶 30 35
+石榴紅茶 35 40
+玫瑰紅茶 35 40
+豆漿紅茶 35 40
+波霸紅茶 30 35
+珍珠紅茶 30 35
+椰果紅茶 30 35
+QQ紅茶 30 35
+奶香紅茶 40 45
+鮮奶紅茶 45 55
+蜂蜜奶茶 45 50
+玫瑰奶茶 45 50
+薄荷奶茶 45 50
+波霸奶茶 45 50
+珍珠奶茶 45 50
+椰果奶茶 45 50
+QQ奶茶 45 50
+布丁奶茶 50 55
+仙草凍奶茶 45 50
+藍莓凍奶茶 45 50
+咖啡凍奶茶 45 50
+紅豆奶茶 50 55
+#台灣純綠
+青梅綠茶 35 40
+梅子綠茶 35 40
+蜂蜜綠茶 40 45
+檸檬綠茶 45 50
+檸檬多酚綠茶 - 50
+冬瓜綠茶 30 35
+多多綠茶 40 45
+百香綠茶 30 35
+薄荷綠茶 35 40
+石榴綠茶 35 40
+玫瑰綠茶 35 40
+冰糖桂花釀綠茶 45 50
+波霸綠茶 30 35
+珍珠綠茶 30 35
+椰果綠茶 30 35
+QQ綠茶 30 35
+奶香綠茶 40 45
+鮮奶綠茶 45 55
+薄荷奶綠 45 50
+波霸奶綠 45 50
+珍珠奶綠 45 50
+椰果奶綠 45 50
+QQ奶綠 45 50
+布丁奶綠 50 55
+仙草凍奶綠 45 50
+#台灣青茶
+青梅青茶 35 40
+梅子青茶 35 40
+奇香烏梅青 40 45
+蜂蜜青茶 40 45
+檸檬青茶 45 50
+檸檬多酚青茶 - 50
+冬瓜青茶 30 35
+多多青茶 40 45
+百香青茶 30 35
+玫瑰青茶 35 40
+冰糖桂花釀青茶 45 50
+金鑽青茶 40 45
+波霸青茶 30 35
+珍珠青茶 30 35
+椰果青茶 30 35
+QQ青茶 30 35
+蘆薈青茶 - 50
+奶香青茶 40 45
+鮮奶青茶 45 55
+波霸奶青 45 50
+#台灣烏龍
+山楂烏龍 35 40
+梅子烏龍 35 40
+蜂蜜烏龍 40 45
+檸檬多酚烏龍 - 50
+冬瓜烏龍 30 35
+冰糖桂花釀烏龍 45 50
+波霸烏龍 30 35
+珍珠烏龍 30 35
+椰果烏龍 30 35
+奶香烏龍 40 45
+日式烏龍奶茶 40 45
+鮮奶烏龍 45 55
+蜂蜜奶烏 45 50
+波霸奶烏 45 50
+珍珠奶烏 45 50
+椰果奶烏 45 50
+QQ奶烏 45 50
+#陳年普洱
+陳年普洱 25 30
+梅子普洱 35 40
+蜂蜜普洱 40 45
+檸檬多酚普洱 - 50
+冬瓜普洱 30 35
+波霸普洱 30 35
+奶香普洱 40 45
+鮮奶普洱 45 55
+蜂蜜奶普 45 50
+波霸奶普 45 50
+#經典風味
+青梅茶 35 40
+青梅啵啵 - 50
+蜜茶 35 40
+冬瓜茶 25 30
+冬瓜鮮奶 55 65
+冬瓜豆漿 35 45
+阿華田 45 50
+白阿華田 45 55
+可可亞 45 50
+玫瑰花果茶 40 50
+芋頭沙牛奶 40 50
+薰衣草奶茶 40 50
+寒天梅子凍 45 50
+冰糖桂花釀 45 50
+黑糖歐蕾 45 55
+黑糖珍珠歐蕾 55 65
+蕃茄多多 - 50
+梅子蕃茄 - 40
+蜂蜜蘆薈 - 50
+蜂蜜檸檬多酚 - 55
+柚香柚甜 - 60
+百香甜心 - 60
+#新鮮現榨
+檸檬梅子 45 50
+冬瓜檸檬 50 55
+蜂蜜檸檬 50 55
+檸檬多多 55 60
+鮮榨檸檬汁 45 50
+情人茶 55 60
+金桔檸檬 55 60
+鮮桔茶 45 50
+#冰菓系列
+荔枝香妃 - 70
+莓麗貴人 - 70
+香芒格格 - 70
+#頂級生乳拿鐵
+巧克力生乳拿鐵 60 75
+阿華田生乳拿鐵 60 75
+咖啡生乳拿鐵 60 75
+#魔力麥麥
+麥麥拿鐵 - 80
+麥麥濃奶 - 60
+#調和風味
+柳橙 25 30
+草莓 25 30
+百香果 25 30
+青蘋果 25 30
+香檳葡萄 25 30
+#咖啡
+冰咖啡 45 50
+魔手頂級咖啡 50 60
+拿鐵咖啡 85 95
+#冬季限定
+桂圓紅棗 40 45
+濃可可 50 -
+#點心厚片
+草莓厚片 - 30
+花生厚片 - 30
+蜂蜜厚片 - 30
+奶酥厚片 - 30
+奶油厚片 - 30
+香蒜厚片 - 30
+巧克力厚片 - 30` },
+  { id:'milksha', name:'迷客夏', tag:'主打奶類的迷之品牌', q:'迷客夏 台南 東門', addr:'',
+    src:'官網中／南部價目表（2026-07-01 版）；珍珠、仙草凍、綠茶凍加 10 元。', menu:`
+#季節限定
+荔荔茉莉 - 50
+荔荔蜜桃椰果 - 65
+荔多鮮奶果昔 60 -
+蜜桃烏龍 - 70
+蜜桃茉莉 - 70
+夏嶼果茶 - 65
+海鹽芒果綠 - 65
+蔗杯紅柚凍飲 - 75
+#醇萃茶
+娜杯紅茶 - 40
+英倫伯爵紅茶 - 35
+大正醇香紅茶 - 35
+原片初露青茶 - 35
+茉莉原淬綠茶 - 35
+琥珀高峰烏龍 - 35
+#醇濃鮮奶茶
+娜杯紅茶拿鐵 55 65
+伯爵紅茶拿鐵 50 60
+大正紅茶拿鐵 50 60
+琥珀烏龍拿鐵 50 60
+茉香綠茶拿鐵 50 60
+原片青茶拿鐵 50 60
+珍珠伯爵紅茶拿鐵 60 70
+珍珠大正紅茶拿鐵 60 70
+珍珠娜杯紅茶拿鐵 65 75
+#無咖啡因
+桂香輕蕎麥 - 55
+輕纖蕎麥茶 - 45
+輕纖蕎麥拿鐵 65 75
+焙香決明大麥 - 35
+焙香大麥拿鐵 50 60
+原鄉冬瓜茶 - 40
+冬瓜檸檬 - 55
+冬瓜麥茶 - 55
+#鮮調果茶
+桂香原片青 - 50
+桂香青檸蜂蜜粉粿 - 65
+柳丁綠茶 - 65
+柳丁青茶 - 65
+白甘蔗青茶 - 70
+青檸香茶 - 70
+蜂蜜檸檬晶凍 - 60
+香柚綠茶 - 60
+養樂多綠 - 55
+冬瓜青茶 - 55
+冰萃柳丁 - 65
+冰萃檸檬 - 65
+#醇濃綠光鮮奶
+芋頭鮮奶 65 85
+珍珠鮮奶 65 85
+手炒黑糖鮮奶 65 85
+嫩仙草凍奶 65 85` }
+];
+/* 加料：價格 null 代表查不到台南區的公告價格，金額不計入 */
+const TOPS = {
+  dezheng: [['珍珠',10],['黃金珍珠',10],['焙烏龍茶凍',10]],
+  '50lan': [['珍珠',null],['波霸',null],['椰果',null],['燕麥',null]],
+  yimuri: [['草仔粿',15],['招牌粉粿',15],['琥珀粉圓',10],['雙粉（粉粿＋粉圓）',15],['蘆薈',10],['嫩仙草',10]],
+  mojo: [['白梅',10],['脆梅果',10],['波霸',15],['珍珠',15],['QQ',15],['椰果',15],['蜂蜜',15],['冬瓜',15],['梅子凍',15],['仙草凍',15],['藍莓凍',15],['咖啡凍',15],['寒天珍珠',20],['膳實珍珠',25],['紅豆',20],['檸檬汁',20],['布丁',20],['多多',20],['蘆薈',25]],
+  milksha: [['珍珠',10],['仙草凍',10],['綠茶凍',10],['蜂蜜黑糖粉粿',15],['荔荔椰果',15]]
+};
+const topText = l => (l.tops || []).map(t => '+' + t.n).join('');
+const unknownTop = l => (l.tops || []).some(t => t.p == null);
+STORES.forEach(s => {
+  const cats = []; const items = [];
+  s.menu.trim().split('\n').forEach(line => {
+    line = line.trim(); if (!line) return;
+    if (line[0] === '#'){ cats.push({ name: line.slice(1), items: [] }); return; }
+    const m = line.match(/^(.+?)\s+(-|\d+)\s+(-|\d+)$/); if (!m) return;
+    const it = { i: items.length, name: m[1], M: m[2] === '-' ? 0 : +m[2], L: m[3] === '-' ? 0 : +m[3] };
+    items.push(it); cats[cats.length-1].items.push(it);
+  });
+  s.tops = (TOPS[s.id] || []).map(([n, p]) => ({ n, p }));
+  const prices = items.flatMap(it => [it.M, it.L]).filter(Boolean);
+  s.cats = cats; s.items = items; s.price = `${Math.min(...prices)}$-${Math.max(...prices)}$`;
+});
+const priceText = it => it.M && it.L ? `中 $${it.M}・大 $${it.L}` : `$${it.M || it.L}`;
+const SUGAR = ['正常','少糖','半糖','微糖','二分','一分','無糖'];
+const ICE = ['正常冰','少冰','微冰','去冰','常溫','熱'];
+/* 地圖只是示意。nearUrl 不帶座標，Google 地圖會用裝置自己的定位（手機是 GPS）找附近分店；
+   電腦多半用 IP 猜位置、容易偏掉，所以另外留一個固定在台南南區、東區一帶的連結 */
+const TAINAN = '22.985,120.207,15z';
+const nearUrl = s => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(s.name);
+const tainanUrl = s => `https://www.google.com/maps/search/${encodeURIComponent(s.name)}/@${TAINAN}`;
+
+/* ---------- 打席結果 ---------- */
+const RESULTS = [['一安','hit'],['二安','hit'],['三安','hit'],['全壘','hit'],['四壞','on'],['觸身','on'],['失誤','on'],['三振','out'],['滾地','out'],['飛球','out'],['犧牲','out']];
+const resultKind = r => (RESULTS.find(x => x[0] === r) || [,''])[1];
+/* 打席結果直接上到幾壘；出局類為 0 */
+const BASES_FOR = { 一安:1, 二安:2, 三安:3, 全壘:4, 四壞:1, 觸身:1, 失誤:1 };
+const lastAbIndex = r => { for (let k = r.ab.length - 1; k >= 0; k--) if (r.ab[k]) return k; return -1; };
+const lastAb = r => { const k = lastAbIndex(r); return k >= 0 ? r.ab[k] : ''; };
+function gameStats(g){
+  let hits = 0, runs = 0;
+  (g.rows||[]).forEach(r => { r.ab.forEach(a => { if (resultKind(a) === 'hit') hits++; }); if (r.bases[3]) runs++; });
+  return { batters: (g.rows||[]).length, hits, runs };
+}
+const blankRow = () => ({ name:'', bases:[0,0,0,0], ab:['','','',''] });
+
+/* ---------- 畫面 ---------- */
+function header(title, icon){
+  return `<div class="top-gap"></div><header class="bar">${icon ? `<span class="bar-icon">${ICON[icon]}</span>` : ''}<h1>${title}</h1><button class="home-btn" data-act="go" data-to="home" aria-label="回首頁">${ICON.house}</button></header>`;
+}
+
+const TILES = [['notes','記事本','book'],['photos','隨手拍','camera'],['drinks','訂飲料','cup'],['game','球經紀錄','ball'],['history','歷史紀錄','bats'],['calendar','行事曆','cal']];
+
+function viewHome(){
+  const photos = db.get('photos', []);
+  const y = addDays(today(), -1);
+  const pick = photos.find(p => p.date === y) || photos[0];
+  let cap = '還沒有照片，按右下角 ＋ 拍一張。';
+  if (pick) cap = (pick.date === y ? '昨天' : `最近一張 · ${md(pick.date)}`) + (pick.caption ? ` · ${esc(pick.caption)}` : '');
+  return header('歡迎回來') + `
+  <nav class="tiles" aria-label="功能">
+    ${TILES.map(([to,label,ic]) => `<button class="tile" data-act="go" data-to="${to === 'game' ? 'game-'+today() : to}"><span class="tile-face"><span>${ICON[ic]}</span></span><b>${label}</b></button>`).join('')}
+  </nav>
+  <section class="yesterday">
+    <button class="y-photo" data-act="go" data-to="photos" aria-label="打開隨手拍">${pick ? `<img src="${pick.src}" alt="${esc(pick.caption || '照片')}">` : ''}</button>
+    <p class="y-text">Your<br>Yesterday<span class="y-cap" style="display:block">${cap}</span></p>
+  </section>
+  <button class="fab" data-act="quick" aria-label="快速新增">${ICON.plus}</button>`;
+}
+
+function viewNotes(){
+  const notes = db.get('notes', []).slice().sort((a,b) => b.updated - a.updated);
+  return header('記事本','book') + `<div class="wrap">
+    <div class="row"><button class="btn primary" data-act="new-note">＋ 新增記事</button></div>
+    ${notes.length ? `<div class="note-list">${notes.map(n => { const [t, ...rest] = n.text.split('\n'); return `<button class="note-item" data-act="go" data-to="note-${n.id}"><b>${esc(t || '（空白記事）')}</b><p>${esc(rest.join(' ') || ' ')}</p><small>${stamp(n.updated)}</small></button>`; }).join('')}</div>`
+      : `<div class="empty">還沒有記事。<br>按「新增記事」寫下第一則。</div>`}
+  </div>`;
+}
+
+function viewNote(id){
+  const n = db.get('notes', []).find(x => x.id === id);
+  if (!n) return viewNotes();
+  return header('記事本','book') + `<div class="wrap">
+    <div class="row" style="justify-content:space-between"><button class="back" data-act="go" data-to="notes">← 全部記事</button><button class="btn small danger" data-act="del-note" data-id="${id}">刪除</button></div>
+    <div class="card note-edit"><textarea id="note-text" data-id="${id}" aria-label="記事內容" placeholder="第一行會當作標題">${esc(n.text)}</textarea></div>
+    <p class="hint">輸入時會自動儲存。</p>
+  </div>`;
+}
+
+function viewPhotos(){
+  const photos = db.get('photos', []);
+  return header('隨手拍','camera') + `<div class="wrap">
+    <div class="row"><label class="btn primary"><input type="file" id="photo-input" accept="image/*" hidden>📷 拍照／選照片</label></div>
+    ${photos.length ? `<div class="photo-grid">${photos.map(p => `<button data-act="view-photo" data-id="${p.id}" aria-label="查看 ${md(p.date)} 的照片"><img src="${p.src}" alt=""><small>${md(p.date)}</small></button>`).join('')}</div>`
+      : `<div class="empty">還沒有照片。<br>拍下的照片會出現在首頁的「Your Yesterday」。</div>`}
+  </div>`;
+}
+
+let drinkSel = db.get('drinkSel', 'dezheng');
+function viewDrinks(){
+  const sel = STORES.find(s => s.id === drinkSel) || STORES[0];
+  const ordered = [sel, ...STORES.filter(s => s !== sel)];
+  const orders = db.get('orders', []);
+  const pend = cart.lines.length ? STORES.find(s => s.id === cart.store) : null;
+  return header('訂飲料','cup') + `<div class="wrap">
+    <a class="map" href="${nearUrl(sel)}" target="_blank" rel="noopener" aria-label="用 Google 地圖搜尋你附近的${esc(sel.name)}">
+      <div class="map-art"></div><span class="map-pin">${ICON.pin}</span>
+      <div class="map-info"><b>${esc(sel.name)}</b>點地圖，用 Google 地圖搜尋你附近的分店 ↗</div>
+    </a>
+    <p class="hint" style="margin-top:-8px">電腦定位常常不準，可以改看 <a href="${tainanUrl(sel)}" target="_blank" rel="noopener" style="color:var(--cream)">台南市區的${esc(sel.name)}</a>。</p>
+    <div class="stores">${ordered.map(s => `
+      <div class="store" role="button" tabindex="0" data-act="pick-store" data-id="${s.id}" aria-current="${s === sel}">
+        <span class="pin">${ICON.pin}</span>
+        <span style="min-width:0"><div class="store-name">${s.name}</div><div class="store-tag">${s.tag}</div></span>
+        <span class="store-side"><span class="price">${s.price}</span><button class="menu-btn" data-act="menu" data-id="${s.id}">menu</button></span>
+      </div>`).join('')}
+    </div>
+    ${pend ? `<h2 class="section-title">還沒完成的訂單</h2>
+      <article class="order pending"><header><b>${esc(pend.name)}</b><small>${cart.lines.reduce((a,l)=>a+l.qty,0)} 杯 · $${cartTotal()}${cart.lines.some(unknownTop) ? '＋加料' : ''}</small></header>
+        <ul>${cart.lines.map(l => `<li>${esc(l.name)}${l.size ? ' '+esc(l.size) : ''}${esc(topText(l))} ${esc(l.sugar)}${esc(l.ice)} ×${l.qty}${l.who ? `（${esc(l.who)}）` : ''}</li>`).join('')}</ul>
+        <div class="row"><button class="btn small" data-act="menu" data-id="${pend.id}">繼續點</button><button class="btn primary small" data-act="submit-order">完成訂單並複製</button><button class="x" data-act="clear-cart" aria-label="清空這張訂單" style="margin-left:auto">×</button></div>
+      </article>` : ''}
+    <h2 class="section-title">最近訂單</h2>
+    ${orders.length ? orders.slice(0,5).map(o => `<article class="order"><header><b>${esc(o.store)}</b><small>${stamp(o.time)}</small></header>
+        <ul>${o.lines.map(l => `<li>${esc(l.name)}${l.size ? ' '+esc(l.size) : ''}${esc(topText(l))} ${esc(l.sugar)}${esc(l.ice)} ×${l.qty}${l.who ? `（${esc(l.who)}）` : ''}</li>`).join('')}</ul>
+        <div class="row" style="justify-content:space-between"><small>${o.lines.reduce((a,l)=>a+l.qty,0)} 杯 · $${o.total}</small><span class="row"><button class="btn small" data-act="copy-order" data-id="${o.id}">複製訂單</button><button class="x" data-act="del-order" data-id="${o.id}" aria-label="刪除訂單">×</button></span></div>
+      </article>`).join('') : `<div class="empty">按「完成訂單」後，訂單會出現在這裡。<br>點店家的 menu 開始點飲料。</div>`}
+  </div>`;
+}
+
+function viewGame(date){
+  const games = db.get('games', {});
+  const g = games[date] || { note:'', rows:[blankRow(), blankRow(), blankRow()] };
+  const st = gameStats(g);
+  return header('球經紀錄','ball') + `<div class="wrap">
+    <section class="game-head">
+      <label class="date-big"><span>${slash(date)}</span><input type="date" id="game-date" value="${date}" aria-label="選擇日期"></label>
+      <textarea id="game-note" data-date="${date}" placeholder="今日小記……" aria-label="今日小記">${esc(g.note)}</textarea>
+    </section>
+    <div class="stats"><span>打者<b>${st.batters}</b></span><span>安打<b>${st.hits}</b></span><span>回本壘<b>${st.runs}</b></span></div>
+    ${g.rows.map((r,i) => `
+    <div class="batter">
+      <div class="batter-label">第 ${i+1} 棒 <input type="text" class="batter-name" data-date="${date}" data-i="${i}" value="${esc(r.name)}" placeholder="背號／姓名" aria-label="第 ${i+1} 棒名字"><button class="x" data-act="del-row" data-date="${date}" data-i="${i}" aria-label="刪除第 ${i+1} 棒">×</button></div>
+      <div class="sheet-row">
+        <div class="diamond">${diamondSVG(r.bases, lastAb(r))}
+          ${[1,2,3,4].map(q => `<button class="q q${q}" data-act="base" data-date="${date}" data-i="${i}" data-q="${q}" aria-pressed="${!!r.bases[q-1]}" aria-label="${['一壘','二壘','三壘','本壘'][q-1]}"></button>`).join('')}
+        </div>
+        ${r.ab.map((a,j) => `<button class="ab ${a ? 'set '+resultKind(a) : ''}" data-act="ab" data-date="${date}" data-i="${i}" data-j="${j}" aria-label="第 ${j+1} 打席 ${a || '未記錄'}">${a ? esc(a) : j+1}</button>`).join('')}
+      </div>
+    </div>`).join('')}
+    <div class="row"><button class="btn ghost" data-act="add-row" data-date="${date}">＋ 新增一棒</button></div>
+    <p class="hint">點 1–4 格記錄每個打席的結果，左邊壘包會照最後一個打席自動標好；之後被推進的話，再點壘包四個角調整（4 是回本壘得分）。</p>
+  </div>`;
+}
+function diamondSVG(b, last){
+  const on = '#a39d7e', off = '#1f1f1d';
+  const kind = resultKind(last);
+  const fill = b[3] ? '#a39d7e' : kind === 'out' ? '#e6e8ec' : '#c5ccd6';
+  const ink = b[3] ? '#ffffff' : { hit:'#6f6a50', on:'#2f5878', out:'#77766f' }[kind] || off;
+  const edge = (x1,y1,x2,y2,a) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${a ? on : off}" stroke-width="${a ? 7 : 2}" stroke-linecap="round"/>`;
+  const lab = (x,y,n,a) => `<text x="${x}" y="${y}" font-size="17" text-anchor="middle" dominant-baseline="central" fill="${a ? '#6f6a50' : off}" font-weight="${a ? 900 : 400}" font-family="Noto Sans TC, sans-serif">${n}</text>${a ? `<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${on}" stroke-width="2"/>` : ''}`;
+  return `<svg viewBox="0 0 120 120" aria-hidden="true">
+    <path d="M60 4 V24 M60 96 V116 M4 60 H24 M96 60 H116" stroke="${off}" stroke-width="2"/>
+    <polygon points="60,24 96,60 60,96 24,60" fill="${fill}"/>
+    ${edge(60,24,96,60,b[0])}${edge(96,60,60,96,b[1])}${edge(60,96,24,60,b[2])}${edge(24,60,60,24,b[3])}
+    ${last ? `<text x="60" y="60" font-size="16" text-anchor="middle" dominant-baseline="central" fill="${ink}" font-weight="900" font-family="Noto Sans TC, sans-serif">${esc(last)}</text>` : ''}
+    ${lab(94,24,1,b[0])}${lab(94,96,2,b[1])}${lab(26,96,3,b[2])}${lab(26,24,4,b[3])}
+  </svg>`;
+}
+
+function viewHistory(){
+  const games = db.get('games', {});
+  const dates = Object.keys(games).sort().reverse();
+  return header('歷史紀錄','bats') + `<div class="wrap">
+    ${dates.length ? dates.map(d => { const g = games[d], st = gameStats(g); const [y,m,dd] = d.split('-').map(Number);
+      return `<button class="hist" data-act="go" data-to="game-${d}"><time>${m}/${dd}<small>${y} 週${WEEK[new Date(d+'T00:00:00').getDay()]}</small></time><span class="nums">${st.batters} 棒 · 安打 ${st.hits} · 回本壘 ${st.runs}</span><p>${esc(g.note || '沒有小記')}</p></button>`; }).join('')
+      : `<div class="empty">還沒有球經紀錄。<br>到「球經紀錄」記下第一場。</div>`}
+    <div class="row"><button class="btn ghost" data-act="go" data-to="game-${today()}">＋ 記錄今天</button></div>
+  </div>`;
+}
+
+let calMonth = today().slice(0,7), calDay = today();
+function viewCalendar(){
+  const events = db.get('events', {}), games = db.get('games', {});
+  const [y, m] = calMonth.split('-').map(Number);
+  const first = new Date(y, m-1, 1), start = new Date(y, m-1, 1 - first.getDay());
+  const cells = [];
+  for (let i = 0; i < 42; i++){ const d = new Date(start); d.setDate(start.getDate()+i); cells.push(d); if (i >= 34 && d.getMonth() !== m-1 && d.getDay() === 6) break; }
+  const list = (events[calDay] || []).slice().sort((a,b) => a.time.localeCompare(b.time));
+  return header('行事曆','cal') + `<div class="wrap">
+    <section class="cal">
+      <div class="cal-head"><button data-act="cal-move" data-n="-1" aria-label="上個月">‹</button><b>${y} 年 ${m} 月</b><button data-act="cal-move" data-n="1" aria-label="下個月">›</button></div>
+      <div class="cal-grid">${[...WEEK].map(w => `<span class="dow">${w}</span>`).join('')}
+        ${cells.map(d => { const k = ymd(d); const ev = (events[k]||[]).length, gm = !!games[k];
+          return `<button class="day ${d.getMonth() !== m-1 ? 'other' : ''} ${k === today() ? 'today' : ''}" data-act="cal-day" data-d="${k}" aria-pressed="${k === calDay}" aria-label="${slash(k)}${ev ? ` ${ev} 個行程` : ''}${gm ? ' 有球經紀錄' : ''}">${d.getDate()}<span class="dots">${ev ? '<i></i>' : ''}${gm ? '<i class="g"></i>' : ''}</span></button>`; }).join('')}
+      </div>
+    </section>
+    <section class="card">
+      <h2 style="margin:0 0 4px;font-size:20px">${slash(calDay)}（${WEEK[new Date(calDay+'T00:00:00').getDay()]}）</h2>
+      ${list.length ? list.map(e => `<div class="ev"><time>${esc(e.time || '整天')}</time><span>${esc(e.title)}</span><button class="x" data-act="del-ev" data-id="${e.id}" aria-label="刪除行程">×</button></div>`).join('') : '<p style="color:var(--muted);margin:6px 0 10px">這天沒有行程。</p>'}
+      ${games[calDay] ? `<p><button class="btn small" data-act="go" data-to="game-${calDay}">⚾ 看這天的球經紀錄</button></p>` : ''}
+      <form id="ev-form" class="row" style="margin-top:12px">
+        <input type="time" id="ev-time" aria-label="時間" style="width:7.5em">
+        <input type="text" id="ev-title" placeholder="新增行程，例如：練球" aria-label="行程內容" style="flex:1;min-width:8em" required>
+        <button class="btn primary small" type="submit">加入</button>
+      </form>
+    </section>
+  </div>`;
+}
+
+/* ---------- 路由 ---------- */
+let current = location.hash.slice(1) || 'home';
+function route(){ return current; }
+function go(to){
+  const changed = current !== to; current = to;
+  if (changed){ try { history.pushState(null, '', '#' + to); } catch(e){} }
+  closeSheet(); render(); if (changed) window.scrollTo(0, 0);
+}
+function render(){
+  const r = route(); const app = $('#app');
+  let html;
+  if (r === 'notes') html = viewNotes();
+  else if (r.startsWith('note-')) html = viewNote(r.slice(5));
+  else if (r === 'photos') html = viewPhotos();
+  else if (r === 'drinks') html = viewDrinks();
+  else if (r === 'game') html = viewGame(today());
+  else if (/^game-\d{4}-\d{2}-\d{2}$/.test(r)) html = viewGame(r.slice(5));
+  else if (r === 'history') html = viewHistory();
+  else if (r === 'calendar') html = viewCalendar();
+  else html = viewHome();
+  app.innerHTML = html;
+}
+function rerender(){ const y = window.scrollY; render(); window.scrollTo(0, y); }
+window.addEventListener('popstate', () => { current = location.hash.slice(1) || 'home'; closeSheet(); render(); window.scrollTo(0,0); });
+
+/* ---------- 底部面板 ---------- */
+let sheetState = null;
+function openSheet(html){
+  const open = $('#layer .sheet');
+  if (open){ const y = open.scrollTop; open.innerHTML = html; open.scrollTop = y; return; }
+  $('#layer').innerHTML = `<div class="scrim" data-act="scrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+}
+function closeSheet(){ $('#layer').innerHTML = ''; sheetState = null; }
+
+function quickSheet(){
+  openSheet(`<h3>快速新增</h3><p class="sub">選一個要新增的項目</p><div class="sheet-actions">
+    <button class="btn" data-act="new-note">📝 新增記事</button>
+    <button class="btn" data-act="go" data-to="photos">📷 拍一張照片</button>
+    <button class="btn" data-act="go" data-to="game-${today()}">⚾ 記錄今天的球經紀錄</button>
+    <button class="btn" data-act="go-cal-today">📅 新增行程</button>
+    <button class="btn" data-act="go" data-to="drinks">🥤 訂飲料</button></div>`);
+}
+
+/* 菜單與購物車 */
+let cart = db.get('cart', { store: null, lines: [] });
+const saveCart = () => db.set('cart', cart);
+const cartTotal = () => cart.lines.reduce((a,l) => a + l.price*l.qty, 0);
+function menuSheet(){
+  const s = STORES.find(x => x.id === sheetState.store);
+  const p = sheetState.pick;
+  const lines = cart.store === s.id ? cart.lines : [];
+  const total = lines.reduce((a,l) => a + l.price*l.qty, 0);
+  const cups = lines.reduce((a,l) => a + l.qty, 0);
+  const q = (sheetState.q || '').trim();
+  const match = it => !q || it.name.includes(q);
+  const topSum = () => sheetState.tops.reduce((a,n) => a + (s.tops.find(t => t.n === n)?.p || 0), 0);
+  const pr = it => (sheetState.size === 'M' && it.M ? it.M : (it.L || it.M)) + topSum();
+  const other = cart.lines.length && cart.store !== s.id ? STORES.find(x => x.id === cart.store) : null;
+  openSheet(`<h3>${s.name} menu</h3><p class="sub">${esc(s.src)} 價格會變動，以門市公告為準。</p>
+    <input type="text" id="menu-q" value="${esc(q)}" placeholder="搜尋品項，例如：奶茶" aria-label="搜尋品項" style="margin-bottom:6px">
+    <div class="menu-items">${s.cats.map(c => `<div class="mi-cat" ${c.items.some(match) ? '' : 'hidden'}><h4 class="cat">${esc(c.name)}</h4>${c.items.map(it => `<div class="mi" data-name="${esc(it.name)}" ${match(it) ? '' : 'hidden'}><button data-act="pick-item" data-i="${it.i}" aria-expanded="${p === it.i}"><span>${esc(it.name)}</span><span>${priceText(it)}</span></button>
+      ${p === it.i ? `<div class="mi-opts">
+        ${it.M && it.L ? `<div><h4>杯型</h4><div class="chips">${[['M','中杯'],['L','大杯']].map(([k,t]) => `<button class="chip" data-act="opt" data-k="size" data-v="${k}" aria-pressed="${sheetState.size === k}">${t} $${it[k]}</button>`).join('')}</div></div>` : ''}
+        <div><h4>甜度</h4><div class="chips">${SUGAR.map(x => `<button class="chip" data-act="opt" data-k="sugar" data-v="${x}" aria-pressed="${sheetState.sugar === x}">${x}</button>`).join('')}</div></div>
+        <div><h4>冰塊</h4><div class="chips">${ICE.map(x => `<button class="chip" data-act="opt" data-k="ice" data-v="${x}" aria-pressed="${sheetState.ice === x}">${x}</button>`).join('')}</div></div>
+        ${s.tops.length && !it.name.endsWith('厚片') ? `<div><h4>加料（可複選）</h4><div class="chips">${s.tops.map(t => `<button class="chip" data-act="top" data-v="${esc(t.n)}" aria-pressed="${sheetState.tops.includes(t.n)}">${esc(t.n)} ${t.p == null ? '<small>價格依門市</small>' : '+' + t.p}</button>`).join('')}</div></div>` : ''}
+        <div class="row"><input type="text" id="who" placeholder="誰的？（可不填）" value="${esc(sheetState.who)}" aria-label="訂購人" style="flex:1;min-width:8em">
+          <span class="stepper"><button data-act="qty" data-n="-1" aria-label="減少">−</button><output>${sheetState.qty}</output><button data-act="qty" data-n="1" aria-label="增加">＋</button></span></div>
+        ${other ? `<p class="hint" style="color:#9a2f25">加入後會清掉還沒完成的「${esc(other.name)}」訂單。</p>` : ''}
+        <button class="btn primary" data-act="add-line">加入這次訂單 · $${pr(it)*sheetState.qty}</button>
+      </div>` : ''}</div>`).join('')}</div>`).join('')}
+      <p class="hint menu-none" ${s.items.some(match) ? 'hidden' : ''} style="color:var(--muted);padding:14px 2px">找不到符合的品項。</p></div>
+    <div class="cart-bar">
+      ${lines.length && sheetState.cartOpen ? `<div class="cart">
+        ${lines.map((l,i) => `<div class="cart-line"><span>${esc(l.name)}${esc(topText(l))} ×${l.qty}<small>${l.size ? esc(l.size)+'・' : ''}${esc(l.sugar)}・${esc(l.ice)}${l.who ? '・'+esc(l.who) : ''}</small></span><span>$${l.price*l.qty}${unknownTop(l) ? '+' : ''}</span><button class="x" data-act="rm-line" data-i="${i}" aria-label="移除">×</button></div>`).join('')}
+      </div>` : ''}
+      <div class="cart-sum">${lines.length
+        ? `<button class="cart-toggle" data-act="cart-toggle" aria-expanded="${!!sheetState.cartOpen}">🧾 ${cups} 杯 · $${total}${lines.some(unknownTop) ? '＋加料' : ''} <small>${sheetState.cartOpen ? '收起 ▾' : '看明細 ▴'}</small></button><button class="btn primary small" data-act="submit-order">完成訂單</button>`
+        : `<span class="hint" style="color:var(--muted)">點品項選好後按「加入這次訂單」</span><button class="btn small" data-act="close">關閉</button>`}</div>
+    </div>`);
+}
+function orderText(o){
+  const n = o.lines.reduce((a,l)=>a+l.qty,0);
+  const extra = o.lines.some(unknownTop) ? '（不含價格依門市的加料）' : '';
+  return `【${o.store} 訂單】${stamp(o.time)}\n` + o.lines.map((l,i) => `${i+1}. ${l.name}${l.size ? ' '+l.size : ''}${topText(l)} ${l.sugar}${l.ice} ×${l.qty}${l.who ? `（${l.who}）` : ''} $${l.price*l.qty}`).join('\n') + `\n合計 ${n} 杯 $${o.total}${extra}`;
+}
+function copyText(text){
+  const fallback = () => { openSheet(`<h3>複製訂單</h3><p class="sub">自動複製沒成功，請長按下面的文字全選後複製。</p><textarea class="copy-box" id="copy-box" readonly>${esc(text)}</textarea><p><button class="btn" data-act="close">關閉</button></p>`); const b = $('#copy-box'); b.focus(); b.select(); };
+  try { navigator.clipboard.writeText(text).then(() => toast('已複製，可以貼到 LINE 群組'), fallback); } catch(e){ fallback(); }
+}
+
+function resultSheet(date, i, j){
+  sheetState = { date, i, j };
+  openSheet(`<h3>第 ${i+1} 棒 · 第 ${j+1} 打席</h3><p class="sub">選擇這個打席的結果</p>
+    <div class="result-grid">${RESULTS.map(([r,k]) => `<button class="${k}" data-act="set-ab" data-v="${r}">${r}</button>`).join('')}<button data-act="set-ab" data-v="">清除</button></div>`);
+}
+
+function photoSheet(id){
+  const p = db.get('photos', []).find(x => x.id === id); if (!p) return;
+  openSheet(`<div class="viewer"><img src="${p.src}" alt="${esc(p.caption || '照片')}"></div>
+    <p class="sub" style="margin-top:10px">${slash(p.date)}</p>
+    <div class="row"><input type="text" id="cap" data-id="${id}" value="${esc(p.caption || '')}" placeholder="幫這張照片寫一句話" aria-label="照片說明" style="flex:1;min-width:8em"></div>
+    <div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn danger small" data-act="del-photo" data-id="${id}">刪除照片</button><button class="btn primary small" data-act="close">完成</button></div>`);
+}
+
+/* ---------- 資料操作 ---------- */
+function updateGame(date, fn){
+  const games = db.get('games', {});
+  const g = games[date] || { note:'', rows:[blankRow(), blankRow(), blankRow()] };
+  fn(g); games[date] = g; db.set('games', games);
+}
+let armed = null;
+function confirmTwice(el, key, label){
+  if (armed === key) { armed = null; return true; }
+  armed = key; const old = el.textContent; el.textContent = label;
+  setTimeout(() => { if (armed === key){ armed = null; el.textContent = old; } }, 3000);
+  return false;
+}
+
+/* ---------- 事件 ---------- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const a = el.dataset.act, d = el.dataset;
+  if (a === 'scrim'){ if (e.target === el) closeSheet(); return; }
+  e.stopPropagation();
+  switch (a){
+    case 'go': closeSheet(); go(d.to); break;
+    case 'close': closeSheet(); break;
+    case 'quick': quickSheet(); break;
+    case 'go-cal-today': closeSheet(); calDay = today(); calMonth = calDay.slice(0,7); go('calendar'); setTimeout(() => $('#ev-title')?.focus(), 60); break;
+    case 'new-note': { const n = { id: uid(), text: '', updated: Date.now() }; db.set('notes', [n, ...db.get('notes', [])]); closeSheet(); go('note-'+n.id); setTimeout(() => $('#note-text')?.focus(), 60); break; }
+    case 'del-note': if (confirmTwice(el, 'note'+d.id, '再按一次刪除')){ db.set('notes', db.get('notes', []).filter(n => n.id !== d.id)); toast('已刪除記事'); go('notes'); } break;
+    case 'view-photo': photoSheet(d.id); break;
+    case 'del-photo': if (confirmTwice(el, 'ph'+d.id, '再按一次刪除')){ db.set('photos', db.get('photos', []).filter(p => p.id !== d.id)); closeSheet(); rerender(); toast('已刪除照片'); } break;
+    case 'pick-store': drinkSel = d.id; db.set('drinkSel', drinkSel); rerender(); break;
+    case 'menu': drinkSel = d.id; db.set('drinkSel', drinkSel); closeSheet(); rerender(); sheetState = { store: d.id, pick: null, sugar:'微糖', ice:'少冰', size:'L', qty:1, who:'', q:'', tops:[], cartOpen:false }; menuSheet(); break;
+    case 'pick-item': sheetState.pick = sheetState.pick === +d.i ? null : +d.i; sheetState.qty = 1; sheetState.tops = []; menuSheet(); break;
+    case 'top': { const t = sheetState.tops; const k = t.indexOf(d.v); if (k >= 0) t.splice(k, 1); else t.push(d.v); menuSheet(); break; }
+    case 'cart-toggle': sheetState.cartOpen = !sheetState.cartOpen; menuSheet(); break;
+    case 'clear-cart': if (confirmTwice(el, 'cart', '確定？')){ cart = { store:null, lines:[] }; saveCart(); rerender(); } break;
+    case 'opt': sheetState[d.k] = d.v; menuSheet(); break;
+    case 'qty': sheetState.who = $('#who')?.value || ''; sheetState.qty = Math.max(1, Math.min(50, sheetState.qty + +d.n)); menuSheet(); break;
+    case 'add-line': {
+      const s = STORES.find(x => x.id === sheetState.store); const it = s.items[sheetState.pick]; const name = it.name;
+      const both = it.M && it.L, useM = both ? sheetState.size === 'M' : !!it.M && !it.L;
+      const tops = sheetState.tops.map(n => ({ n, p: s.tops.find(t => t.n === n)?.p ?? null }));
+      const price = (useM ? it.M : it.L) + tops.reduce((a,t) => a + (t.p || 0), 0);
+      const size = both ? (useM ? '中杯' : '大杯') : '';
+      if (cart.store !== s.id) cart = { store: s.id, lines: [] };
+      cart.lines.push({ name, price, size, tops, sugar: sheetState.sugar, ice: sheetState.ice, qty: sheetState.qty, who: ($('#who')?.value || '').trim() });
+      saveCart(); rerender();
+      sheetState.pick = null; sheetState.who = ''; sheetState.tops = []; menuSheet(); toast(`已加入 ${name}，共 ${cart.lines.reduce((a,l)=>a+l.qty,0)} 杯`); break; }
+    case 'rm-line': cart.lines.splice(+d.i, 1); saveCart(); rerender(); menuSheet(); break;
+    case 'submit-order': {
+      const s = STORES.find(x => x.id === cart.store); if (!s || !cart.lines.length) break;
+      const o = { id: uid(), store: s.name, time: Date.now(), lines: cart.lines, total: cartTotal() };
+      db.set('orders', [o, ...db.get('orders', [])].slice(0, 30)); cart = { store:null, lines:[] }; saveCart();
+      closeSheet(); rerender(); copyText(orderText(o)); break; }
+    case 'copy-order': { const o = db.get('orders', []).find(x => x.id === d.id); if (o) copyText(orderText(o)); break; }
+    case 'del-order': db.set('orders', db.get('orders', []).filter(o => o.id !== d.id)); rerender(); break;
+    case 'base': updateGame(d.date, g => { const r = g.rows[+d.i]; const q = +d.q - 1; const on = !r.bases[q];
+        r.bases = r.bases.map((v,k) => on ? (k <= q ? 1 : v) : (k >= q ? 0 : v)); }); rerender(); break;
+    case 'ab': resultSheet(d.date, +d.i, +d.j); break;
+    case 'set-ab': { const { date, i, j } = sheetState; updateGame(date, g => {
+        const r = g.rows[i]; const wasLast = lastAbIndex(r) <= j;
+        r.ab[j] = d.v;
+        // 只有改到最後一個打席（或清掉它）時，才依最新結果重設壘包
+        if (wasLast){ const n = BASES_FOR[lastAb(r)] || 0; r.bases = [0,1,2,3].map(k => k < n ? 1 : 0); }
+      }); closeSheet(); rerender(); break; }
+    case 'add-row': updateGame(d.date, g => g.rows.push(blankRow())); rerender(); break;
+    case 'del-row': if (confirmTwice(el, 'row'+d.date+d.i, '確定？')){ updateGame(d.date, g => g.rows.splice(+d.i, 1)); rerender(); } break;
+    case 'cal-move': { const [y,m] = calMonth.split('-').map(Number); const nd = new Date(y, m-1 + +d.n, 1); calMonth = `${nd.getFullYear()}-${pad(nd.getMonth()+1)}`; rerender(); break; }
+    case 'cal-day': calDay = d.d; calMonth = calDay.slice(0,7); rerender(); break;
+    case 'del-ev': { const ev = db.get('events', {}); ev[calDay] = (ev[calDay] || []).filter(x => x.id !== d.id); if (!ev[calDay].length) delete ev[calDay]; db.set('events', ev); rerender(); break; }
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSheet();
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.store[role=button]')){ e.preventDefault(); e.target.click(); }
+});
+
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'note-text'){ const notes = db.get('notes', []); const n = notes.find(x => x.id === t.dataset.id); if (n){ n.text = t.value; n.updated = Date.now(); db.set('notes', notes); } }
+  else if (t.id === 'game-note') updateGame(t.dataset.date, g => { g.note = t.value; });
+  else if (t.classList.contains('batter-name')) updateGame(t.dataset.date, g => { g.rows[+t.dataset.i].name = t.value; });
+  else if (t.id === 'cap'){ const ps = db.get('photos', []); const p = ps.find(x => x.id === t.dataset.id); if (p){ p.caption = t.value; db.set('photos', ps); } }
+  else if (t.id === 'who' && sheetState) sheetState.who = t.value;
+  else if (t.id === 'menu-q' && sheetState){
+    const q = sheetState.q = t.value.trim();
+    document.querySelectorAll('.mi-cat').forEach(cat => {
+      let any = false;
+      cat.querySelectorAll('.mi').forEach(mi => { const ok = !q || mi.dataset.name.includes(q); mi.hidden = !ok; any = any || ok; });
+      cat.hidden = !any;
+    });
+    const none = $('.menu-none'); if (none) none.hidden = !!document.querySelector('.mi-cat:not([hidden])');
+  }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'game-date' && t.value) go('game-' + t.value);
+  if (t.id === 'photo-input' && t.files[0]) addPhoto(t.files[0]);
+  if (t.id === 'cap') rerender();
+});
+document.addEventListener('submit', e => {
+  if (e.target.id !== 'ev-form') return;
+  e.preventDefault();
+  const title = $('#ev-title').value.trim(); if (!title) return;
+  const ev = db.get('events', {}); (ev[calDay] = ev[calDay] || []).push({ id: uid(), time: $('#ev-time').value, title });
+  db.set('events', ev); rerender(); toast('已加入行程');
+});
+
+/* 照片縮小後存起來 */
+function addPhoto(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 900, k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const p = { id: uid(), src: c.toDataURL('image/jpeg', .78), date: today(), caption: '' };
+      const ok = db.set('photos', [p, ...db.get('photos', [])]);
+      rerender(); toast(ok ? '照片已存好' : '手機空間不足，這張照片只會保留到關閉頁面為止');
+      photoSheet(p.id);
+    };
+    img.onerror = () => toast('這個檔案無法讀成圖片，請換一張');
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+render();
+})();
+</script>
+
+</body>
+</html>
